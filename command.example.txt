@@ -1,0 +1,6 @@
+command
+command < input.txt
+command | command_pipe
+command < input.txt | command_pipe
+command | command_pipe > output.txt 
+command < input.txt | command_pipe > output.txt
