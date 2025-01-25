@@ -1,0 +1,49 @@
+Para compilar o programa:
+
+gcc so_main.c -o shell
+
+Para executar a Shell:
+
+./shell
+
+///////////////////////////
+
+Comandos Disponíveis:
+
+Digite qualquer comando Linux padrão.
+
+Utilize & no final para rodar em background.
+
+Use |, <, > para manipular entrada e saída.
+
+Digite history para listar os últimos comandos.
+
+Digite exit para sair da shell.
+
+/////////////////////////////
+
+Exemplos de uso do shell:
+
+Execução Simples:
+
+shell> ls -l
+
+Execução em Background:
+
+shell> sleep 10 &
+
+Redirecionamento de Saída:
+
+shell> ls > arquivos.txt
+
+Redirecionamento de Entrada:
+
+shell> sort < arquivo.txt
+
+Uso de Pipe:
+
+shell> cat arquivo.txt | grep palavra
+
+Histórico:
+
+shell> history
