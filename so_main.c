@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <regex.h>
 
 #define MAX_INPUT 1024
 #define MAX_ARGS 128
@@ -141,6 +142,10 @@ int main() {
     char cmdline[MAX_INPUT];
 
     signal(SIGCHLD, signal_handler);
+    
+    regex_t regex_history;
+    regcomp(&regex_history, "^(history )([1-9][0-9]?|100)$", REG_EXTENDED|REG_NOSUB);
+    char history_tester[MAX_INPUT];
 
     while (1) {
         printf("shell> ");
@@ -149,11 +154,17 @@ int main() {
         }
 
         cmdline[strcspn(cmdline, "\n")] = '\0';
+        strcpy(history_tester, cmdline);
 
         if (strcmp(cmdline, "exit") == 0) {
             break;
         } else if (strcmp(cmdline, "history") == 0) {
             print_history();
+        } else if(regexec(&regex_history, history_tester, 0, NULL, 0) == 0) {
+            char *number = strtok(history_tester, " ");
+            number = strtok(NULL, " ");
+            if(atoi(number) <= history_count)
+                execute_command(history[atoi(number)-1]);
         } else {
             execute_command(cmdline);
         }
