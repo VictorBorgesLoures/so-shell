@@ -47,3 +47,7 @@ shell> cat arquivo.txt | grep palavra
 Histórico:
 
 shell> history
+
+Executar comando do histórico:
+
+shell> history 1
