@@ -14,6 +14,7 @@
 
 char *history[HISTORY_SIZE];
 int history_count = 0;
+char *input_file = NULL, *output_file = NULL;
 
 void add_to_history(const char *command)
 {
@@ -48,7 +49,6 @@ void print_history()
 void execute_command(char *cmdline)
 {
     char *args[MAX_ARGS];
-    char *input_file = NULL, *output_file = NULL;
     int background = 0, pipe_fd[2], pipe_index = -1;
     pid_t pid;
 
@@ -142,7 +142,8 @@ void execute_command(char *cmdline)
         }
         else
         {
-            printf("Processo %d rodando no background\n", pid);
+            if(!output_file)
+                printf("Processo %d rodando no background\n", pid);
         }
 
         if (pipe_index != -1)
@@ -182,6 +183,8 @@ void execute_command(char *cmdline)
     close(stdout_copy);
     close(pipe_fd[0]);
     close(pipe_fd[1]);
+    output_file = NULL;
+    input_file = NULL;
 }
 
 void signal_handler(int signo)
@@ -190,7 +193,8 @@ void signal_handler(int signo)
     {
         while (waitpid(-1, NULL, WNOHANG) > 0)
         {
-            printf("Processo de background completado!\n");
+            if(!output_file)
+                printf("Processo de background completado!\n");
         }
     }
 }
